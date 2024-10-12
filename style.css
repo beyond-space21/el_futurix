@@ -91,13 +91,13 @@ body{
   cursor: pointer;
 }
 
-.profile:hover{
+/* .profile:hover{
   border-bottom-left-radius: 0;
 }
 
 .profile:hover .profile_pop{
   display: block;
-}
+} */
 
 .profile .a{
   margin-top: 10px;
