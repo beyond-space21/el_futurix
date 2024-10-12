@@ -18,9 +18,9 @@ get_details().then((userDetails) => {
   });
 
 
-  document.getElementsByClassName("profile")[0].onclick = ()=>{
-    alert(countdown())
-  }
+  // document.getElementsByClassName("profile")[0].onclick = ()=>{
+  //   alert(countdown())
+  // }
 
   function countdown(){
     const countDate = new Date("October 13, 2024 10:00:00").getTime();
