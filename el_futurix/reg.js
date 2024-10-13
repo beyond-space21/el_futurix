@@ -297,14 +297,46 @@ function createTeam(competitionId, teamName, studentEmail) { // Pass email inste
 }
 
 
-async function addMemberToTeam(teamId, studentId, competitionId) {
-  const teamRef = doc(db, "teams", teamId);
-  await updateDoc(teamRef, {
-    members: arrayUnion({
-      studentId: studentId,
-      role: "member"
-    })
-  });
+async function addMemberToTeam(teamId, studentEmail, competitionId) {
+    try {
+        // Reference the team document
+        const teamRef = doc(db, "teams", teamId);
+        
+        // Add the new member to the 'members' array in the team document
+        await updateDoc(teamRef, {
+            members: arrayUnion({
+                studentId: studentEmail, // Use email as the student ID
+                role: "member"
+            })
+        });
+
+        // Reference the student's document in the 'students' collection
+        const studentRef = doc(db, "students", studentEmail);
+        const studentDoc = await getDoc(studentRef);
+
+        // If the student exists, update their registered competitions
+        if (studentDoc.exists()) {
+            await updateDoc(studentRef, {
+                registeredCompetitions: [
+                    ...(studentDoc.data().registeredCompetitions || []),
+                    {
+                        competitionId: competitionId,
+                        teamId: teamId,
+                        role: "member"
+                    }
+                ]
+            });
+        } else {
+            console.error("Student document not found!");
+            throw new Error("Student document not found.");
+        }
+
+        console.log("Member added to the team and student profile updated successfully!");
+    } catch (error) {
+        console.error("Error adding member to team or updating student profile:", error);
+        throw error; // Throw the error for higher-level handling
+    }
+}
 
   // Update the student's registered competitions
   const studentRef = doc(db, "students", studentId);
