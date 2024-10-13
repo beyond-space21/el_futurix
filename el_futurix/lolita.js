@@ -33,9 +33,9 @@ function openModal() {
 
 
 //registration time r
-setInterval(()=>{
-    document.getElementsByClassName('btn')[0].innerHTML = countdown()
-},1000)
+// setInterval(()=>{
+//     document.getElementsByClassName('btn')[0].innerHTML = countdown()
+// },1000)
 
 function countdown(){
     const countDate = new Date("October 13, 2024 13:00:00").getTime();

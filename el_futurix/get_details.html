@@ -129,12 +129,12 @@
         <!-- Form Section -->
         <form id="detailsForm" action="" method="">
             <h2>Profile</h2>
-
+        
             <div class="form-group">
                 <label for="student-name">Student Name:</label>
-                <input type="text" id="student-name" name="student-name" required>
+                <input type="text" id="student-name" name="student-name" placeholder="Enter your full name" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="salutation">Salutation:</label>
                 <select id="salutation" name="salutation" required>
@@ -144,58 +144,58 @@
                     <option value="Dr.">Dr.</option>
                 </select>
             </div>
-
+        
             <div class="form-group">
                 <label for="designation">Designation:</label>
-                <input type="text" id="designation" name="designation" required>
+                <input type="text" id="designation" name="designation" placeholder="Enter your designation" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="college-name">College Name:</label>
-                <input type="text" id="college-name" name="college-name" required>
+                <input type="text" id="college-name" name="college-name" placeholder="Enter your college name" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="stream-of-study">Stream of Study:</label>
-                <input type="text" id="stream-of-study" name="stream-of-study" required>
+                <input type="text" id="stream-of-study" name="stream-of-study" placeholder="Enter your stream (eg: engineering)" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="course-department">Course/Department:</label>
-                <input type="text" id="course" name="course-department" required>
+                <input type="text" id="course" name="course-department" placeholder="Enter your course/department" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="year-of-study">Year of Study:</label>
-                <input type="number" id="year" name="year-of-study" min="1" max="5" required>
+                <input type="number" id="year" name="year-of-study" min="1" max="5" placeholder="Enter your year (1-5)" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="whatsapp-number">WhatsApp Number:</label>
-                <input type="tel" id="whatsapp" name="whatsapp-number" required>
+                <input type="tel" id="whatsapp" name="whatsapp-number" placeholder="Enter your WhatsApp number" pattern="[0-9]{10}" required>
             </div>
-
+        
             <div class="form-group">
                 <label for="alt-contact-number">Alternate Contact Number:</label>
-                <input type="tel" id="phone" name="alt-contact-number">
+                <input type="tel" id="phone" name="alt-contact-number" placeholder="Enter an alternate contact number" pattern="[0-9]{10}">
             </div>
-
+        
             <div class="form-group">
                 <label for="email">Email:</label>
-                <input type="tel" id="email" name="email">
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
             </div>
-
+        
             <div class="checkbox-group">
                 <input type="checkbox" id="assurance" name="assurance" required>
                 <label for="assurance">I assure that all the above mentioned details are true to my knowledge</label>
             </div>
-
+        
             <input id="submit" type="submit" value="Submit">
         </form>
 
         <!-- Image Section -->
         <div class="image-section">
-            <img src="event-image.jpg" alt="Event Image">
+            <img src="img/image.png" alt="Event Image">
         </div>
     </div>
 

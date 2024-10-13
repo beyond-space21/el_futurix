@@ -22,10 +22,10 @@ get_details().then((userDetails) => {
   //   alert(countdown())
   // }
 
-  setInterval(()=>{
-    console.log(countdown());
+  // setInterval(()=>{
+  //   console.log(countdown());
     
-  },1000)
+  // },1000)
 
   function countdown(){
     const countDate = new Date("October 13, 2024 13:00:00").getTime();

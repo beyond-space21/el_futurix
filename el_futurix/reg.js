@@ -99,23 +99,6 @@ function postFirstLogin(obj) {
 }
 
 
-
-function registerForCompetition(studentId, competitionId, teamId = null) {
-    const studentDocRef = db.collection('students').doc(studentId);
-    studentDocRef.update({
-        registeredCompetitions: firebase.firestore.FieldValue.arrayUnion({
-            competitionId: competitionId,
-            teamId: teamId,
-            role: teamId ? "teamLeader" : "individual" // Assuming "individual" if no team is created
-        })
-    }).then(() => {
-        console.log("Student registered for competition:", competitionId);
-    }).catch((error) => {
-        console.error("Error registering for competition: ", error);
-    });
-}
-
-
 function getCompetitions(competitionId) {
     const competitionRef = doc(db, 'competitions', competitionId); // Reference to the competition document
     return getDoc(competitionRef)
@@ -369,4 +352,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export { registerForCompetition,addMemberToTeam,getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export { addMemberToTeam,getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
