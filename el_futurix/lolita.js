@@ -1,6 +1,4 @@
 window.onload = () => {
-    let key = document.getElementsByClassName("key");
-
     var rg = document.getElementById("frm_cnt")
     rg.style.marginLeft = (window.innerWidth - 354) / 2 + 'px'
 
@@ -22,12 +20,6 @@ function fetchMemberName(member) {
     }
 }
 
-// Function to handle form validation
-function validateForm(event) {
-    event.preventDefault();
-    // Add your form validation logic here
-    alert("Form submitted successfully!");
-}
 
 // Function to close modal
 function closeModal() {
@@ -40,13 +32,13 @@ function openModal() {
 }
 
 
-//registration timer
+//registration time r
 setInterval(()=>{
     document.getElementsByClassName('btn')[0].innerHTML = countdown()
 },1000)
 
 function countdown(){
-    const countDate = new Date("October 13, 2024 10:00:00").getTime();
+    const countDate = new Date("October 13, 2024 13:00:00").getTime();
 
     const now = new Date().getTime();
     const gap = countDate - now;
@@ -69,3 +61,36 @@ document.getElementsByClassName("container")[0].style.backgroundColor = "transpa
 document.getElementsByClassName("container")[0].style.margin = "unset"
 document.getElementsByClassName("container")[0].style.padding = "unset"
 document.getElementsByTagName("body")[0].style.backgroundColor = "rgba(61, 61, 61, 0.47)"
+
+
+var add_elm_fld = `<div class="id_elm">
+<label for="college">Member 1</label><br>
+<div class="ip_flx">
+    <input type="text" id="mem1" name="Member-1" placeholder="Member ID" required><br><br>
+    <button class="gt_btn" type="button">Get</button>
+</div>
+<h6 class="nameOfID">student name</h6>
+</div>`
+
+var mem_coun = 1;
+
+function add_mem_fld(e) {
+    if (mem_coun < e) {
+        const truCon = document.getElementsByClassName("tru_con")[0];
+        
+        // Create a new element dynamically and add it without resetting the form
+        const newMember = document.createElement('div');
+        newMember.classList.add('id_elm');
+        newMember.innerHTML = `
+            <label for="college">Member ${mem_coun + 1}</label><br>
+            <div class="ip_flx">
+                <input class="id_flds" type="text" id="mem${mem_coun + 1}" name="Member-${mem_coun + 1}" placeholder="Member ID" required><br><br>
+                <button class="gt_btn" type="button">Get</button>
+            </div>
+            <h6 class="nameOfID">student name</h6>
+        `;
+        
+        truCon.appendChild(newMember); // Append the new member
+        mem_coun++; // Increment the counter
+    }
+}

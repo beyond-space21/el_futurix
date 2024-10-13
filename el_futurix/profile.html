@@ -1,1 +1,222 @@
-profile
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Profile Page</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: rgba(66, 37, 0, 0.47);
+            padding-bottom: 100px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .profile-container,
+        .events-container {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .profile-container h2,
+        .events-container h2 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .profile-item {
+            margin-bottom: 15px;
+        }
+
+        .profile-item strong {
+            display: block;
+            width: 150px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .events-container .event {
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-left: 4px solid #4CAF50;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .events-container .event h3 {
+            margin: 0 0 5px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .events-container .event p {
+            margin: 0;
+            font-size: 14px;
+            color: #777;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                /* flex-direction: column; */
+            }
+
+            .profile-container,
+            .events-container {
+                width: 100%;
+            }
+
+            .profile-item strong {
+                width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .profile-item strong {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .profile-item {
+                font-size: 14px;
+            }
+
+            .events-container .event h3 {
+                font-size: 16px;
+            }
+
+            .events-container .event p {
+                font-size: 12px;
+            }
+        }
+
+        #addv{
+            margin-top: 150px;
+            color: rgb(59, 40, 0);
+            font-weight: 700;
+            font-size: xx-larger;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <!-- Left side: Profile details -->
+        <div class="profile-container">
+            <h2>Profile Details</h2>
+
+            <div class="profile-item">
+                <strong>Student Name:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Salutation:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Designation:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>College Name:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Stream of Study:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Course/Department:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Year of Study:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>WhatsApp Number:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Alternate Contact Number:</strong> <span class="profile_val"></span>
+            </div>
+            <div class="profile-item">
+                <strong>Email:</strong> <span class="profile_val"></span>
+            </div>
+        </div>
+
+        <!-- Right side: Registered Events -->
+        <div class="events-container">
+            <h2>Registered Events</h2>
+
+            <div id="eve-cnt">
+                <div id="addv">Register for events and participate to win exiciting prizes </div>
+            <!-- <div class="event">
+                <h3>Event 1: Coding Hackathon</h3>
+                <p>Location: BIT Campus</p>
+            </div> -->
+            </div>
+
+        </div>
+    </div>
+    <script type="module">
+
+        import { getStudentByEmail, getCompetitions } from "./reg.js"
+        import { get_details } from "./login.js"
+
+        get_details().then((userDetails) => {
+            if (userDetails) {
+                getStudentByEmail(userDetails.email).then((dta) => {
+
+                    var elms = document.getElementsByClassName("profile-item")
+                    elms[0].getElementsByClassName("profile_val")[0].innerHTML = dta.student_name
+                    elms[1].getElementsByClassName("profile_val")[0].innerHTML = dta.salutation
+                    elms[2].getElementsByClassName("profile_val")[0].innerHTML = dta.designation
+                    elms[3].getElementsByClassName("profile_val")[0].innerHTML = dta.college_name
+                    elms[4].getElementsByClassName("profile_val")[0].innerHTML = dta.stream
+                    elms[5].getElementsByClassName("profile_val")[0].innerHTML = dta.course
+                    elms[6].getElementsByClassName("profile_val")[0].innerHTML = dta.year
+                    elms[7].getElementsByClassName("profile_val")[0].innerHTML = dta.whatsapp
+                    elms[8].getElementsByClassName("profile_val")[0].innerHTML = dta.phone
+                    elms[9].getElementsByClassName("profile_val")[0].innerHTML = dta.email
+
+                    var evnts = document.getElementById("eve-cnt")
+                    let eventsHTML = '';
+
+                    dta.registeredCompetitions.forEach((events) => {
+                        console.log(events.competitionId);
+                        
+                        getCompetitions(events.competitionId).then((competition) => {
+                            eventsHTML += `
+                                         <div class="event">
+                                             <h3>Event: ${competition.name}</h3>
+                                             <p>Location: BIT Campus</p>
+                                         </div>`;
+
+                            // Update the innerHTML after all events are processed
+                            evnts.innerHTML = eventsHTML;
+                        });
+                    });
+
+
+                })
+            } else {
+                console.log("No user is signed in.");
+                alert("login before registering...");
+            }
+        }).catch((error) => {
+            console.error("Error getting user details:", error);
+        });
+
+
+    </script>
+</body>
+
+</html>

@@ -56,7 +56,7 @@
       </div>
       <img class="pic" src="el_futurix/img/profile_blank.png" alt="">
       <div class="profile_pop">
-        <div id="profile_btn" style="display: none;" class="elm">Profile</div>
+        <div id="profile_btn" style="display: none;" onclick="page_show(null,'/el_futurix/profile.html','Profile')" class="elm">Profile</div>
         <div id="log_in_btn" class="elm">Log in</div>
         <div id="log_out_btn" style="display: none;" class="elm">Log out</div>
       </div>
@@ -147,6 +147,7 @@
       if(event.data == "home")
       page_show(cur_page,"home")
     });
+    
   </script>
 </body>
 

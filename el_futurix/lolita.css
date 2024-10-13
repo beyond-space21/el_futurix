@@ -14,6 +14,9 @@
   color: #ffffff;
 }
 
+body{
+  padding-bottom: 100px;
+}
 
 #frm_cnt input {
   border: none;

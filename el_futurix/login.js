@@ -47,8 +47,10 @@ function get_details() {
           resolve({
             name: user.displayName,
             photo: user.photoURL, // Fixed photo to be photoURL
-            uid: user.uid
+            uid: user.uid,
+            email: user.email
           });
+
         } else {
           // No user is signed in
           resolve(false);

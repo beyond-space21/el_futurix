@@ -1,12 +1,15 @@
 //application
-import { login,loginBtn,get_details} from './el_futurix/login.js'
-loginBtn.addEventListener('click',login)
+import { login,get_details} from './el_futurix/login.js'
+document.getElementById('log_in_btn').onclick = login
 
 get_details().then((userDetails) => {
     if (userDetails) {
     console.log("user loged in");
     console.log(userDetails);
     document.getElementsByClassName("pic")[0].src = userDetails.photo
+    document.getElementById("log_in_btn").style.display = "none"
+    document.getElementById("log_out_btn").style.display = "block"
+    document.getElementById("profile_btn").style.display = "block"
     } else {
       console.log("No user is signed in.");
     }
@@ -15,12 +18,17 @@ get_details().then((userDetails) => {
   });
 
 
-  document.getElementsByClassName("profile")[0].onclick = ()=>{
-    alert(countdown())
-  }
+  // document.getElementsByClassName("profile")[0].onclick = ()=>{
+  //   alert(countdown())
+  // }
+
+  setInterval(()=>{
+    console.log(countdown());
+    
+  },1000)
 
   function countdown(){
-    const countDate = new Date("October 13, 2024 10:00:00").getTime();
+    const countDate = new Date("October 13, 2024 13:00:00").getTime();
 
     const now = new Date().getTime();
     const gap = countDate - now;

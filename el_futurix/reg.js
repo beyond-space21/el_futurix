@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, doc, collection, setDoc, runTransaction } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore, doc, collection,updateDoc, arrayUnion , setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 
@@ -71,10 +71,11 @@ function postFirstLogin(obj) {
             .then((userDetails) => {
                 if (userDetails) {
                     const studentDocRef = doc(collection(db, 'students'), userDetails.email);
-                    
+
                     generateSequentialId()
                         .then((id) => {
                             obj.id = id;
+                            obj.registeredCompetitions = []
                             return setDoc(studentDocRef, obj);
                         })
                         .then(() => {
@@ -114,70 +115,258 @@ function registerForCompetition(studentId, competitionId, teamId = null) {
     });
 }
 
-function createTeam(studentId, competitionId, teamName, memberIds) {
-    const teamDocRef = db.collection('teams').doc();
 
-    // Verify that all member IDs exist
-    const memberPromises = memberIds.map((id) => db.collection('students').doc(id).get());
-
-    Promise.all(memberPromises).then((docs) => {
-        const validMembers = docs.filter(doc => doc.exists).map(doc => ({
-            studentId: doc.id,
-            role: "member"
-        }));
-
-        // Add team creator as the leader
-        validMembers.push({ studentId: studentId, role: "teamLeader" });
-
-        // Create the team
-        teamDocRef.set({
-            teamName: teamName,
-            competitionId: competitionId,
-            members: validMembers,
-            createdAt: firebase.firestore.Timestamp.now()
-        }).then(() => {
-            console.log("Team created successfully:", teamName);
-        }).catch((error) => {
-            console.error("Error creating team: ", error);
-        });
-    }).catch((error) => {
-        console.error("Error validating members: ", error);
-    });
-}
-
-function isStudentRegisteredForCompetition(studentId, competitionId) {
-    const studentDocRef = db.collection('students').doc(studentId);
-
-    studentDocRef.get().then((doc) => {
-        if (doc.exists) {
-            const registeredCompetitions = doc.data().registeredCompetitions || [];
-            const isRegistered = registeredCompetitions.some(
-                (comp) => comp.competitionId === competitionId
-            );
-
-            if (isRegistered) {
-                console.log(`Student ${studentId} is registered for competition ${competitionId}.`);
+function getCompetitions(competitionId) {
+    const competitionRef = doc(db, 'competitions', competitionId); // Reference to the competition document
+    return getDoc(competitionRef)
+        .then((doc) => {
+            if (doc.exists()) {
+                return doc.data(); // Return the document data
             } else {
-                console.log(`Student ${studentId} is NOT registered for competition ${competitionId}.`);
+                console.log("No such competition!");
+                return null;
             }
-        }
-    }).catch((error) => {
-        console.error("Error fetching student document: ", error);
-    });
+        })
+        .catch((error) => {
+            console.log("Error getting document:", error);
+            return null;
+        });
 }
 
-function getStudentByEmail(email) {
-    const studentDocRef = db.collection('students').doc(email);
+async function getStudentByEmail(email) {
+    // Create a reference to the document
+    const studentDocRef = doc(db, 'students', email);
 
-    studentDocRef.get().then((doc) => {
-        if (doc.exists) {
-            console.log("Student found:", doc.data());
+    try {
+        // Get the document
+        const docSnap = await getDoc(studentDocRef);
+
+        if (docSnap.exists()) {
+            console.log("Student found:", docSnap.data());
+            return docSnap.data(); // Return the student data if found
         } else {
             console.log("No student found with email:", email);
+            return null;
         }
-    }).catch((error) => {
+    } catch (error) {
         console.error("Error fetching student by email:", error);
+        return null;
+    }
+}
+
+function getStudentEmailById(studentId) {
+    return new Promise(async (resolve, reject) => {
+        // Reference to the 'students' collection
+        const studentsRef = collection(db, "students");
+
+        // Create a query against the collection
+        const q = query(studentsRef, where("id", "==", studentId));
+
+        try {
+            // Execute the query and get the documents
+            const querySnapshot = await getDocs(q);
+
+            if (!querySnapshot.empty) {
+                // Get the first matching document
+                const firstDoc = querySnapshot.docs[0];
+                const studentData = firstDoc.data(); // Get the document data (fields)
+                
+                // Return an object with the student's name and email
+                const studentDetails = {
+                    name: studentData.student_name, // Assuming the field is 'student_name'
+                    email: firstDoc.id // The document ID is the email
+                };
+
+                console.log("Student Details:", studentDetails);
+                resolve(studentDetails); // Resolve the Promise with the student details
+            } else {
+                console.log("No student found with the given ID ",studentId);
+                resolve(null); // Resolve the Promise with null if no student found
+            }
+        } catch (error) {
+            console.error("Error fetching student data: ", error);
+            reject(error); // Reject the Promise with the error
+        }
     });
 }
 
-export { registerForCompetition, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+
+// async function createTeam(competitionId, teamName, studentId) {
+//     const teamRef = collection(db, "teams");
+//     const teamDocRef = await addDoc(teamRef, {
+//       teamName: teamName,
+//       competitionId: competitionId,
+//       members: [
+//         {
+//           studentId: studentId,
+//           role: "teamLeader"
+//         }
+//       ],
+//       createdAt: new Date().toISOString()
+//     });
+  
+//     // Update the student's registered competitions
+//     const studentRef = doc(db, "students", studentId);
+//     await updateDoc(studentRef, {
+//       registeredCompetitions: [{
+//         competitionId: competitionId,
+//         teamId: teamDocRef.id,
+//         role: "teamLeader"
+//       }]
+//     });
+  
+//     // Update the competition's registered teams
+//     const competitionRef = doc(db, "competitions", competitionId);
+//     await updateDoc(competitionRef, {
+//       registeredTeams: [...(await (await competitionRef.get()).data().registeredTeams), teamDocRef.id]
+//     });
+  
+//     console.log("Team created and student registered in the competition!");
+//   }
+
+  async function createCompetition(name,type) {
+    const competitionRef = collection(db, "competitions");
+    await addDoc(competitionRef, {
+      name: name,
+      type: type,
+      registeredTeams: []
+    });
+    console.log("Competition created successfully!");
+  }
+
+
+//   createCompetition("product_expo","competition")
+//   createCompetition("paper_presentation","competition")
+//   createCompetition("line_follower","competition")
+//   createCompetition("maze_solver","competition")
+//   createCompetition("drone","competition")
+//   createCompetition("robo_soccer","competition")
+//   createCompetition("circuit_innovators","competition")
+//   createCompetition("web_wizards","competition")
+//   createCompetition("datacraft","competition")
+//   createCompetition("cad_maestro","competition")
+//   createCompetition("coders_arena","competition")
+//   createCompetition("ipl_auction","competition")
+//   createCompetition("cinematic_quiz","competition")
+//   createCompetition("bridge_building","competition")
+//   createCompetition("investigator","competition")
+// createCompetition("pcb_designer","workshop")
+// createCompetition("cyber_security","workshop")
+// createCompetition("ar_vr","workshop")
+// createCompetition("learning","workshop")
+
+
+
+function createTeam(competitionId, teamName, studentEmail) { // Pass email instead of studentId
+    return new Promise(async (resolve, reject) => {
+        try {
+            // Add the team to the "teams" collection
+            const teamRef = collection(db, "teams");
+            const teamDocRef = await addDoc(teamRef, {
+                teamName: teamName,
+                competitionId: competitionId,
+                members: [
+                    {
+                        studentId: studentEmail, // Use the email as studentId
+                        role: "teamLeader"
+                    }
+                ],
+                createdAt: new Date().toISOString()
+            });
+
+            // Use student email as document ID
+            const studentRef = doc(db, "students", studentEmail);
+            const studentDoc = await getDoc(studentRef);
+
+            if (studentDoc.exists()) {
+                // Update the student's registered competitions
+                await updateDoc(studentRef, {
+                    registeredCompetitions: [
+                        ...(studentDoc.data().registeredCompetitions || []),
+                        {
+                            competitionId: competitionId,
+                            teamId: teamDocRef.id,
+                            role: "teamLeader"
+                        }
+                    ]
+                });
+            } else {
+                console.error("Student document not found!");
+                reject("Student document not found.");
+            }
+
+            // Update the competition's registered teams
+            const competitionRef = doc(db, "competitions", competitionId);
+            const competitionDoc = await getDoc(competitionRef);
+            const registeredTeams = competitionDoc.data().registeredTeams || [];
+
+            await updateDoc(competitionRef, {
+                registeredTeams: [...registeredTeams, teamDocRef.id]
+            });
+
+            console.log("Team created and student registered in the competition!");
+            resolve({ teamId: teamDocRef.id, message: "Team successfully created and student registered!" });
+        } catch (error) {
+            console.error("Error creating team or registering student:", error);
+            reject(error); // Reject the promise with the error
+        }
+    });
+}
+
+
+async function addMemberToTeam(teamId, studentId, competitionId) {
+  const teamRef = doc(db, "teams", teamId);
+  await updateDoc(teamRef, {
+    members: arrayUnion({
+      studentId: studentId,
+      role: "member"
+    })
+  });
+
+  // Update the student's registered competitions
+  const studentRef = doc(db, "students", studentId);
+  await updateDoc(studentRef, {
+    registeredCompetitions: arrayUnion({
+      competitionId: competitionId,
+      teamId: teamId,
+      role: "member"
+    })
+  });
+
+  console.log("Member added to the team successfully!");
+}
+
+
+
+async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
+    try {
+        // Reference to the student's document
+        const studentRef = doc(db, "students", studentEmail);
+        const studentDoc = await getDoc(studentRef);
+
+        // Check if the student document exists
+        if (studentDoc.exists()) {
+            const registeredCompetitions = studentDoc.data().registeredCompetitions || [];
+
+            // Check if the competitionId is in the registeredCompetitions array
+            const isRegistered = registeredCompetitions.some(comp => comp.competitionId === competitionId);
+
+            if (isRegistered) {
+                console.log(`Student is registered for competition ${competitionId}`);
+                return true;
+            } else {
+                console.log(`Student is not registered for competition ${competitionId}`);
+                return false;
+            }
+        } else {
+            console.error("Student document not found!");
+            return false;
+        }
+    } catch (error) {
+        console.error("Error checking registration:", error);
+        return false;
+    }
+}
+
+
+export { registerForCompetition,addMemberToTeam,getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
