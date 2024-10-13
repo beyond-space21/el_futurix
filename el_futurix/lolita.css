@@ -37,6 +37,13 @@ body{
   color: #00D9FF;
 }
 
+.abstract_format {
+  font-size: larger;
+  font-weight: 800;
+  color: #00D9FF;
+}
+
+
 input {
   padding: 8px;
   width: 70%;
