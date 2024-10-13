@@ -338,20 +338,6 @@ async function addMemberToTeam(teamId, studentEmail, competitionId) {
     }
 }
 
-  // Update the student's registered competitions
-  const studentRef = doc(db, "students", studentId);
-  await updateDoc(studentRef, {
-    registeredCompetitions: arrayUnion({
-      competitionId: competitionId,
-      teamId: teamId,
-      role: "member"
-    })
-  });
-
-  console.log("Member added to the team successfully!");
-}
-
-
 
 async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
     try {
