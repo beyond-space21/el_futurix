@@ -46,3 +46,6 @@ get_details().then((userDetails) => {
 
     return "Event launches in " + hours + "Hours " + minutes + "Minutes " + seconds + "Seconds"
 };
+
+
+alert("website will be completely open by oct'14 2PM")
