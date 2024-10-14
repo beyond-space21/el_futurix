@@ -114,7 +114,13 @@ function validateForm(event) {
                                 getStudentEmailById(obj.leader)
                                     .then((o) => {
                                         if (o) {
-                                            createTeam(downloadURL,competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
+                                            transaction = {
+                                                id:document.getElementById("traction-id").value,
+                                                amt:document.getElementById("traction-ammount").value,
+                                                date:document.getElementById("traction-date").value,
+                                                name:document.getElementById("holder-name").value
+                                            }
+                                            createTeam(transaction,downloadURL,competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
 
                                                 obj.members.forEach((lp) => {
                                                     console.log(lp);
