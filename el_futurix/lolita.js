@@ -113,7 +113,7 @@ function gh() {
                     <div class="sct_dtl">Account Name: <br><span>BIT-CENTRE FOR ADVANCED STUDIES</span></div>
                     <div class="sct_dtl">Account Number: <br></b><span>911010036862582</span></div>
                     <div class="sct_dtl">IFSC Code: <br><span>UTIB0000368</span></div>
-                    <div class="sct_dtl">Payment proof</div>
+                    <div class="sct_dtl">Payment proof (screenshot (<10MB))</div>
                     <input type="file" id="imageInput" accept="image/*"  required/>
 
                     <div class="sct_dtl">Transaction ID</div>
