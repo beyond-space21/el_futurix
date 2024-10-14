@@ -48,4 +48,4 @@ get_details().then((userDetails) => {
 };
 
 
-alert("website will be completely open by oct'14 2PM")
+// alert("website will be completely open by oct'14 2PM")

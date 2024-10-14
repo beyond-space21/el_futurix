@@ -5,6 +5,8 @@ import { getStudentEmailById, getStudentByEmail, createTeam, addMemberToTeam, is
 
 var cur_std = ""
 
+var isSpecial = false;
+
 // document.getElementsByClassName('btn')[0].innerHTML
 
 get_details().then((userDetails) => {
@@ -221,3 +223,12 @@ document.addEventListener('click', function (event) {
         });
     }
 });
+
+if(["1HFUDpVdTCKQ7Pi9TH8f","M9NXDdwgGRemUnRi2kbr","Un6FvqsAdt6VVitBedIj","m4l2L0xYZkuplUvZTvT9","p564W5i3pRR3zYKAWDRw"].includes(competitionID)){
+document.getElementsByClassName('id_elm')[0].getElementsByTagName("label")[0].innerHTML = "Participant ID"
+document.getElementById('studentForm').getElementsByTagName("label")[0].style.display = "none"
+document.getElementById('team-name').style.display = "none"
+document.getElementById('team-name').value = "$null$";
+document.getElementById('frm_cnt').getElementsByTagName("h4")[0].style.display = 'none'
+isSpecial = true
+}

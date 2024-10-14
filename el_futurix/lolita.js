@@ -1,8 +1,6 @@
 window.onload = () => {
     var rg = document.getElementById("frm_cnt")
     rg.style.marginLeft = (window.innerWidth - 354) / 2 + 'px'
-
-
 }
 
 
@@ -87,13 +85,14 @@ function add_mem_fld(e) {
 }
 
 [
-    // "I assure that I have read all the guidelines mentioned in the Rulebook and adhere to the guidelines.",
-    // "The entered details are correct and will not be changed in the future.",
-    // "I understand that in case of any disputes or discrepancies, the organizers' decision will be final and binding.",
-    // "I know that once the payment is confirmed, it will not be refunded under any circumstances.",
+    "I assure that I have read all the guidelines mentioned in the Rulebook and adhere to the guidelines.",
+    "The entered details are correct and will not be changed in the future.",
+    "I understand that in case of any disputes or discrepancies, the organizers' decision will be final and binding.",
+    "I know that once the payment is confirmed, it will not be refunded under any circumstances.",
     "I verified that the event schedule does not clash with any other event that my teammates and I have registered for."
 ].forEach((elm) => {
     const con = document.createElement('div')
+    con.className = "kl"
     con.innerHTML = `
    <div class="ip_flx ch">
        <input type="checkbox" name="assurance" required>
@@ -107,6 +106,7 @@ gh()
 
 function gh() {
     const con = document.createElement('div')
+    con.className = "kl"
     con.innerHTML = `
     <br>
 <div id="payment_img">
@@ -117,16 +117,16 @@ function gh() {
                     <input type="file" id="imageInput" accept="image/*"  required/>
 
                     <div class="sct_dtl">Transaction ID</div>
-                    <input class="ver" id="traction-id" type="text">
+                    <input class="ver" id="traction-id" type="text" required>
 
                     <div class="sct_dtl">Transaction Ammount</div>
-                    <input class="ver" id="traction-ammount" type="text">
+                    <input class="ver" id="traction-ammount" type="text" required>
 
                     <div class="sct_dtl">Transaction Date</div>
-                    <input class="ver" id="traction-date" type="text">
+                    <input class="ver" id="traction-date" type="text" required>
 
                     <div class="sct_dtl">Account holder name</div>
-                    <input class="ver" id="holder-name" type="text">
+                    <input class="ver" id="holder-name" type="text" required>
                 </div>  
    `
     document.getElementsByClassName('ch')[0].insertAdjacentElement('afterend', con)

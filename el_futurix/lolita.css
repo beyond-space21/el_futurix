@@ -172,12 +172,13 @@ input {
   left: 0;
   right: 0;
   bottom: 0;
+  /* width: fit-content; */
   background-color: #00000096;
 }
 
 #frm_cnt {
-  width: 500px ;
-  margin: 0 auto;
+  width: 354px ;
+  margin: auto;
   margin-top: 50px;
   padding: 20px;
   border-radius: 15px;
@@ -185,6 +186,10 @@ input {
   position: relative;
   overflow-y: auto;
   max-height: calc(100vh - 150px);
+}
+
+#frm_cnt label{
+  /* width: 450px; */
 }
 
 #frm_cnt .close {
@@ -210,6 +215,7 @@ input {
   background-color: rgba(61, 61, 61, 0.47);
   margin: 20px;
   border-radius: 20px;
+  width: fit-content;
 }
 
 .image {
@@ -411,4 +417,19 @@ input[type="checkbox"] {
   border-radius: 0;
   height: 10px;
   border-bottom: solid 1px black;
+}
+
+@media (max-width: 300px){
+  #event_name{
+    font-size: x-large;
+  }
+  #payment_img{
+    width: 300px;
+  }
+  #imageInput{
+    width: 300px;
+  }
+  .frm_cnt{
+    width: 300px;
+  }
 }
