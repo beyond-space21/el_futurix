@@ -55,6 +55,7 @@
             border-left: 4px solid #4CAF50;
             margin-bottom: 10px;
             border-radius: 4px;
+            position: relative;
         }
 
         .events-container .event h3 {
@@ -104,20 +105,93 @@
             }
         }
 
-        #addv{
+        #addv {
             margin-top: 150px;
             color: rgb(59, 40, 0);
             font-weight: 700;
             font-size: xx-larger;
         }
 
-        #std_id{
+        #std_id {
             font-weight: 700;
+        }
+
+        .mem_cont {
+            position: fixed;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background-color: #52525295;
+        }
+
+        .mem_cont .cont {
+            position: fixed;
+            padding: 20px;
+            background-color: #28302e;
+            border-radius: 20px;
+            width: 400px;
+            margin: auto;
+        }
+
+        .comp {
+            color: #b87fff;
+            font-size: x-large;
+            font-weight: 700;
+        }
+
+        .overlay {
+            position: absolute;
+            /* Position relative to the container */
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 50%;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
         }
     </style>
 </head>
 
 <body>
+
+    <div id="eventModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="eventTitle"></h2>
+            <ul id="eventParticipants"></ul>
+        </div>
+    </div>
 
     <div class="container">
         <!-- Left side: Profile details -->
@@ -166,18 +240,22 @@
 
             <div id="eve-cnt">
                 <div id="addv">Register for events and participate to win exiciting prizes </div>
-            <!-- <div class="event">
+                <!-- <div class="event">
                 <h3>Event 1: Coding Hackathon</h3>
                 <p>Location: BIT Campus</p>
             </div> -->
             </div>
-
         </div>
+
+
     </div>
     <script type="module">
 
-        import { getStudentByEmail, getCompetitions } from "./reg.js"
+        import { getStudentByEmail, getCompetitions, getTeamById } from "./reg.js"
         import { get_details } from "./login.js"
+
+        var team_arr = [];
+        var competitions = [];
 
         get_details().then((userDetails) => {
             if (userDetails) {
@@ -199,18 +277,23 @@
                     var evnts = document.getElementById("eve-cnt")
                     let eventsHTML = '';
 
+
                     dta.registeredCompetitions.forEach((events) => {
                         console.log(events.competitionId);
-                        
+
                         getCompetitions(events.competitionId).then((competition) => {
+
                             eventsHTML += `
                                          <div class="event">
+                                             <div class="overlay" id="${events.teamId}"></div>
                                              <h3>Event: ${competition.name}</h3>
                                              <p>Location: BIT Campus</p>
                                          </div>`;
 
                             // Update the innerHTML after all events are processed
                             evnts.innerHTML = eventsHTML;
+                            team_arr.push(events.teamId);
+                            competitions.push(competition.name)
                         });
                     });
 
@@ -223,6 +306,59 @@
         }).catch((error) => {
             console.error("Error getting user details:", error);
         });
+
+        document.getElementById("eve-cnt").addEventListener('click', async (e) => {
+            try {
+                console.log(e.target);
+                const dta = await getTeamById(e.target.id);
+                console.log(dta);
+
+                const competition = await getCompetitions(dta.competitionId);
+                const tem_arr = [];
+                console.log(dta.members);
+
+                for (const member of dta.members) {
+                    try {
+                        const yu = await getStudentByEmail(member.studentId);
+                        tem_arr.push({
+                            name: yu.student_name,
+                            id: yu.id,
+                            role:member.role 
+                        });
+                    } catch (error) {
+                        console.error("Error getting user details:", error);
+                    }
+                }
+
+                
+                showEventDetails(competition.name, tem_arr);
+
+            } catch (error) {
+                console.error("Error processing the event:", error);
+            }
+        });
+
+        
+        function showEventDetails(eventName, participants) {
+        // Set the event title
+        document.getElementById('eventTitle').innerText = `Event: ${eventName}`;
+        
+        // Clear previous participants and add new ones
+        const participantsList = document.getElementById('eventParticipants');
+        participantsList.innerHTML = '';
+        participants.forEach(participant => {
+            const listItem = document.createElement('li');
+            listItem.innerText = `Name: ${participant.name}, ID: ${participant.id}, Role: ${participant.role ? participant.role : 'Member'}`;
+            participantsList.appendChild(listItem);
+        });
+        
+        // Show the modal
+        document.getElementById('eventModal').style.display = 'block';
+    }
+
+    document.getElementsByClassName('close')[0].addEventListener('click',()=>{
+        document.getElementById('eventModal').style.display = 'none';
+    })
 
 
     </script>
