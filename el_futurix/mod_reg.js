@@ -1,7 +1,7 @@
 
 
 import { get_details } from './login.js'
-import { getStudentEmailById, getStudentByEmail, createTeam, addMemberToTeam, isStudentRegisteredForCompetition } from "./reg.js"
+import { getStudentEmailById, getStudentByEmail, createTeam, addMemberToTeam, isStudentRegisteredForCompetition, payment_img } from "./reg.js"
 
 var cur_std = ""
 
@@ -55,38 +55,38 @@ function validateForm(event) {
 
         // Get all elements with the class "id_flds"
         document.querySelectorAll(".id_flds").forEach(elm => {
-            if(elm.value != "")            
-            if (fg) {
-                obj.leader = elm.value;
-                fg = false;
-            } else {
-                // Store each async getStudentEmailById call in the promises array
-                const promise = getStudentEmailById(elm.value)
-                    .then((o) => {
-                        if (o) {
-                            obj.members.push(elm.value);
-                        }
-                        const promise_a = isStudentRegisteredForCompetition(o.email, competitionID)
-                            .then(isRegistered => {
-                                if (isRegistered) {
-                                    alert(elm.value + " registered for the competition already.")
-                                    flg_a = true;
-                                    flg_valid = false;
-                                } else {
-                                    console.log(elm.value + " valid!");
-                                }
-                            });
-                        promises_a.push(promise_a)
-                    }).catch(error => {
-                        console.error("Error occurred:", error);
-                        alert(elm.value + " one invalid ID")
-                        flg_a = true;
-                        flg_valid = false;
-                        return
-                    });
+            if (elm.value != "")
+                if (fg) {
+                    obj.leader = elm.value;
+                    fg = false;
+                } else {
+                    // Store each async getStudentEmailById call in the promises array
+                    const promise = getStudentEmailById(elm.value)
+                        .then((o) => {
+                            if (o) {
+                                obj.members.push(elm.value);
+                            }
+                            const promise_a = isStudentRegisteredForCompetition(o.email, competitionID)
+                                .then(isRegistered => {
+                                    if (isRegistered) {
+                                        alert(elm.value + " registered for the competition already.")
+                                        flg_a = true;
+                                        flg_valid = false;
+                                    } else {
+                                        console.log(elm.value + " valid!");
+                                    }
+                                });
+                            promises_a.push(promise_a)
+                        }).catch(error => {
+                            console.error("Error occurred:", error);
+                            alert(elm.value + " one invalid ID")
+                            flg_a = true;
+                            flg_valid = false;
+                            return
+                        });
 
-                promises.push(promise); // Add the promise to the array
-            }
+                    promises.push(promise); // Add the promise to the array
+                }
         });
 
         // Once all promises are resolved, execute the final action
@@ -105,40 +105,54 @@ function validateForm(event) {
                         flg_a = true;
                         flg_valid = true;
                     } else {
-                        getStudentEmailById(obj.leader)
-                            .then((o) => {
-                                if (o) {
-                                    createTeam(competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
 
-                                        obj.members.forEach((lp) => {
-                                            console.log(lp);
-                                            getStudentEmailById(lp).then((eml) => {
-                                                addMemberToTeam(klo.teamId, eml.email, competitionID).then((olp) => {
+                        payment_img() //upload image
+                            .then((downloadURL) => {
+                                console.log('done upload');
+                                getStudentEmailById(obj.leader)
+                                    .then((o) => {
+                                        if (o) {
+                                            createTeam(downloadURL,competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
+
+                                                obj.members.forEach((lp) => {
+                                                    console.log(lp);
+                                                    getStudentEmailById(lp).then((eml) => {
+                                                        addMemberToTeam(klo.teamId, eml.email, competitionID).then((olp) => {
+                                                            document.getElementsByClassName("btn")[0].innerHTML = "Registered";
+                                                            document.getElementsByClassName("btn")[0].onclick = "unset";
+                                                            alert("members registed successfully")
+                                                            document.getElementById("frm_cv").style.display = "none";
+                                                        })
+                                                    }).catch(error => {
+                                                        console.error("Error occurred:", error);
+                                                        flg_a = true;
+                                                        flg_valid = true;
+                                                        return
+                                                    });
+                                                })
+
+                                                if (obj.members.length == 0) {
                                                     document.getElementsByClassName("btn")[0].innerHTML = "Registered";
                                                     document.getElementsByClassName("btn")[0].onclick = "unset";
                                                     alert("members registed successfully")
                                                     document.getElementById("frm_cv").style.display = "none";
-                                                })
-                                            }).catch(error => {
-                                                console.error("Error occurred:", error);
-                                                flg_a = true;
-                                                flg_valid = true;
-                                                return
-                                            });
-                                        })
-
-                                        if (obj.members.length == 0) {
-                                            document.getElementsByClassName("btn")[0].innerHTML = "Registered";
-                                            document.getElementsByClassName("btn")[0].onclick = "unset";
-                                            alert("members registed successfully")
-                                            document.getElementById("frm_cv").style.display = "none";
+                                                }
+                                            })
                                         }
-                                    })
-                                }
-                            }).catch(error => {
+                                    }).catch(error => {
+                                        console.error("Error occurred:", error);
+                                        flg_a = true;
+                                        flg_valid = true;
+                                        return
+                                    });
+
+
+                            })
+                            .catch((error) => {
                                 console.error("Error occurred:", error);
                                 flg_a = true;
                                 flg_valid = true;
+                                alert("error while uploading image.")
                                 return
                             });
                     }
@@ -147,12 +161,10 @@ function validateForm(event) {
                     flg_a = true;
                     flg_valid = true;
                 }
-
             })
         }).catch(error => {
             console.error("Error occurred during async operations:", error);
         });
-
     }
 }
 

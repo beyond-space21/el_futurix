@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, doc, collection,updateDoc, arrayUnion , setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore, doc, collection, updateDoc, arrayUnion, setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
@@ -14,13 +14,53 @@ const firebaseConfig = {
     messagingSenderId: "518115904118",
     appId: "1:518115904118:web:c5214283690b6619b52d57",
     measurementId: "G-DQW58LGMHR"
-  };
+};
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
+function payment_img() {
+    const file = document.getElementById("imageInput").files[0];
+    return new Promise((resolve, reject) => {
+        if (!file) {
+            reject("Please select an image first.");
+            return;
+        }
+
+        // Create a storage reference
+        const storageRef = ref(storage, 'images/' + file.name);
+
+        // Upload the file
+        const uploadTask = uploadBytesResumable(storageRef, file);
+
+        // Monitor upload progress
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                // Optional: track progress
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log('Upload is ' + progress + '% done');
+            },
+            (error) => {
+                // Handle errors and reject the promise
+                console.error('Upload failed:', error);
+                reject('Image upload failed!');
+            },
+            async () => {
+                // On successful upload, resolve the promise with the download URL
+                try {
+                    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+                    console.log('File available at', downloadURL);
+                    resolve(downloadURL); // Resolve the promise with the download URL
+                } catch (error) {
+                    reject('Failed to get the download URL');
+                }
+            }
+        );
+    });
+}
 
 function generateSequentialId() {
     const db = getFirestore(); // Ensure Firestore is initialized properly
@@ -156,7 +196,7 @@ function getStudentEmailById(studentId) {
                 // Get the first matching document
                 const firstDoc = querySnapshot.docs[0];
                 const studentData = firstDoc.data(); // Get the document data (fields)
-                
+
                 // Return an object with the student's name and email
                 const studentDetails = {
                     name: studentData.student_name, // Assuming the field is 'student_name'
@@ -166,7 +206,7 @@ function getStudentEmailById(studentId) {
                 console.log("Student Details:", studentDetails);
                 resolve(studentDetails); // Resolve the Promise with the student details
             } else {
-                console.log("No student found with the given ID ",studentId);
+                console.log("No student found with the given ID ", studentId);
                 resolve(null); // Resolve the Promise with null if no student found
             }
         } catch (error) {
@@ -190,7 +230,7 @@ function getStudentEmailById(studentId) {
 //       ],
 //       createdAt: new Date().toISOString()
 //     });
-  
+
 //     // Update the student's registered competitions
 //     const studentRef = doc(db, "students", studentId);
 //     await updateDoc(studentRef, {
@@ -200,25 +240,25 @@ function getStudentEmailById(studentId) {
 //         role: "teamLeader"
 //       }]
 //     });
-  
+
 //     // Update the competition's registered teams
 //     const competitionRef = doc(db, "competitions", competitionId);
 //     await updateDoc(competitionRef, {
 //       registeredTeams: [...(await (await competitionRef.get()).data().registeredTeams), teamDocRef.id]
 //     });
-  
+
 //     console.log("Team created and student registered in the competition!");
 //   }
 
-  async function createCompetition(name,type) {
+async function createCompetition(name, type) {
     const competitionRef = collection(db, "competitions");
     await addDoc(competitionRef, {
-      name: name,
-      type: type,
-      registeredTeams: []
+        name: name,
+        type: type,
+        registeredTeams: []
     });
     console.log("Competition created successfully!");
-  }
+}
 
 
 //   createCompetition("product_expo","competition")
@@ -243,7 +283,7 @@ function getStudentEmailById(studentId) {
 
 
 
-function createTeam(competitionId, teamName, studentEmail) { // Pass email instead of studentId
+function createTeam(payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
     return new Promise(async (resolve, reject) => {
         try {
             // Add the team to the "teams" collection
@@ -251,10 +291,11 @@ function createTeam(competitionId, teamName, studentEmail) { // Pass email inste
             const teamDocRef = await addDoc(teamRef, {
                 teamName: teamName,
                 competitionId: competitionId,
+                paymentURL:payment_url,
                 members: [
                     {
                         studentId: studentEmail, // Use the email as studentId
-                        role: "teamLeader"
+                        role: "teamLeader",
                     }
                 ],
                 createdAt: new Date().toISOString()
@@ -301,12 +342,12 @@ function createTeam(competitionId, teamName, studentEmail) { // Pass email inste
 
 
 async function addMemberToTeam(teamId, studentEmail, competitionId) {
-    console.log(teamId,studentEmail,competitionId);
-    
+    console.log(teamId, studentEmail, competitionId);
+
     try {
         // Reference the team document
         const teamRef = doc(db, "teams", teamId);
-        
+
         // Add the new member to the 'members' array in the team document
         await updateDoc(teamRef, {
             members: arrayUnion({
@@ -315,7 +356,7 @@ async function addMemberToTeam(teamId, studentEmail, competitionId) {
             })
         });
 
-        
+
         await updateDoc(teamRef, {
             temp_auth: studentEmail
         });
@@ -380,4 +421,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export { addMemberToTeam,getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export {payment_img, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
