@@ -114,7 +114,7 @@ function validateForm(event) {
                                 getStudentEmailById(obj.leader)
                                     .then((o) => {
                                         if (o) {
-                                            transaction = {
+                                            var transaction = {
                                                 id:document.getElementById("traction-id").value,
                                                 amt:document.getElementById("traction-ammount").value,
                                                 date:document.getElementById("traction-date").value,
