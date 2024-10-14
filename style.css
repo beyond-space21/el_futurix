@@ -89,6 +89,8 @@ body{
   background-color: rgb(43, 42, 42);
   border-radius: 50px;
   cursor: pointer;
+  
+  z-index: 1000;
 }
 
 .profile:hover{
@@ -97,6 +99,7 @@ body{
 
 .profile:hover .profile_pop{
   display: block;
+  z-index: 1000;
 }
 
 .profile .a{
