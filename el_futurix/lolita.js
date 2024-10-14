@@ -87,12 +87,11 @@ function add_mem_fld(e) {
 }
 
 [
-   
-// "I assure that I have read all the guidelines mentioned in the Rulebook and adhere to the guidelines.",
-// "The entered details are correct and will not be changed in the future.",
-// "I understand that in case of any disputes or discrepancies, the organizers' decision will be final and binding.",
-// "I know that once the payment is confirmed, it will not be refunded under any circumstances.",
-"I verified that the event schedule does not clash with any other event that my teammates and I have registered for."
+    // "I assure that I have read all the guidelines mentioned in the Rulebook and adhere to the guidelines.",
+    // "The entered details are correct and will not be changed in the future.",
+    // "I understand that in case of any disputes or discrepancies, the organizers' decision will be final and binding.",
+    // "I know that once the payment is confirmed, it will not be refunded under any circumstances.",
+    "I verified that the event schedule does not clash with any other event that my teammates and I have registered for."
 ].forEach((elm) => {
     const con = document.createElement('div')
     con.innerHTML = `
@@ -102,5 +101,33 @@ function add_mem_fld(e) {
    </div>
    <br>
    `
-   document.getElementsByTagName('h4')[0].insertAdjacentElement('afterend',con)
+    document.getElementsByTagName('h4')[0].insertAdjacentElement('afterend', con)
 })
+gh()
+
+function gh() {
+    const con = document.createElement('div')
+    con.innerHTML = `
+    <br>
+<div id="payment_img">
+                    <div class="sct_dtl">Account Name: <br><span>BIT-CENTRE FOR ADVANCED STUDIES</span></div>
+                    <div class="sct_dtl">Account Number: <br></b><span>911010036862582</span></div>
+                    <div class="sct_dtl">IFSC Code: <br><span>UTIB0000368</span></div>
+                    <div class="sct_dtl">Payment proof</div>
+                    <input type="file" id="imageInput" accept="image/*"  required/>
+
+                    <div class="sct_dtl">Transaction ID</div>
+                    <input class="ver" id="traction-id" type="text">
+
+                    <div class="sct_dtl">Transaction Ammount</div>
+                    <input class="ver" id="traction-ammount" type="text">
+
+                    <div class="sct_dtl">Transaction Date</div>
+                    <input class="ver" id="traction-date" type="text">
+
+                    <div class="sct_dtl">Account holder name</div>
+                    <input class="ver" id="holder-name" type="text">
+                </div>  
+   `
+    document.getElementsByClassName('ch')[0].insertAdjacentElement('afterend', con)
+}
