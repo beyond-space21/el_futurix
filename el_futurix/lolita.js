@@ -37,7 +37,7 @@ function openModal() {
 //     document.getElementsByClassName('btn')[0].innerHTML = countdown()
 // },1000)
 
-function countdown(){
+function countdown() {
     const countDate = new Date("October 13, 2024 13:00:00").getTime();
 
     const now = new Date().getTime();
@@ -63,34 +63,44 @@ document.getElementsByClassName("container")[0].style.padding = "unset"
 document.getElementsByTagName("body")[0].style.backgroundColor = "rgba(61, 61, 61, 0.47)"
 
 
-var add_elm_fld = `<div class="id_elm">
-<label for="college">Member 1</label><br>
-<div class="ip_flx">
-    <input type="text" id="mem1" name="Member-1" placeholder="Member ID" required><br><br>
-    <button class="gt_btn" type="button">Get</button>
-</div>
-<h6 class="nameOfID">student name</h6>
-</div>`
-
 var mem_coun = 1;
 
 function add_mem_fld(e) {
     if (mem_coun < e) {
         const truCon = document.getElementsByClassName("tru_con")[0];
-        
+
         // Create a new element dynamically and add it without resetting the form
         const newMember = document.createElement('div');
         newMember.classList.add('id_elm');
         newMember.innerHTML = `
             <label for="college">Member ${mem_coun + 1}</label><br>
             <div class="ip_flx">
-                <input class="id_flds" type="text" id="mem${mem_coun + 1}" name="Member-${mem_coun + 1}" placeholder="Member ID" required><br><br>
+                <input class="id_flds" type="text" id="mem${mem_coun + 1}" name="Member-${mem_coun + 1}" placeholder="Member ID"><br><br>
                 <button class="gt_btn" type="button">Get</button>
             </div>
             <h6 class="nameOfID">student name</h6>
         `;
-        
+
         truCon.appendChild(newMember); // Append the new member
         mem_coun++; // Increment the counter
     }
 }
+
+[
+   
+// "I assure that I have read all the guidelines mentioned in the Rulebook and adhere to the guidelines.",
+// "The entered details are correct and will not be changed in the future.",
+// "I understand that in case of any disputes or discrepancies, the organizers' decision will be final and binding.",
+// "I know that once the payment is confirmed, it will not be refunded under any circumstances.",
+"I verified that the event schedule does not clash with any other event that my teammates and I have registered for."
+].forEach((elm) => {
+    const con = document.createElement('div')
+    con.innerHTML = `
+   <div class="ip_flx ch">
+       <input type="checkbox" name="assurance" required>
+       <label for="assurance">${elm}</label>
+   </div>
+   <br>
+   `
+   document.getElementsByTagName('h4')[0].insertAdjacentElement('afterend',con)
+})

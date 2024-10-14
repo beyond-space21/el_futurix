@@ -3,6 +3,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/fireba
 import { getFirestore, doc, collection,updateDoc, arrayUnion , setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
+import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
+
 
 const firebaseConfig = {
     apiKey: "AIzaSyDULqoxGCXzqie03gmHrKt-BqJ-4lrtYCI",
@@ -17,6 +19,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 
 function generateSequentialId() {
@@ -36,7 +39,7 @@ function generateSequentialId() {
         transaction.update(counterDoc, { counter: newCounter });
 
         // Generate custom student ID with zero padding
-        const studentId = 'EL-' + String(newCounter).padStart(4, '0');
+        const studentId = 'ELF24' + String(newCounter).padStart(4, '0');
         return studentId;
     }).catch((error) => {
         console.error("Transaction failed: ", error);
@@ -298,6 +301,8 @@ function createTeam(competitionId, teamName, studentEmail) { // Pass email inste
 
 
 async function addMemberToTeam(teamId, studentEmail, competitionId) {
+    console.log(teamId,studentEmail,competitionId);
+    
     try {
         // Reference the team document
         const teamRef = doc(db, "teams", teamId);
@@ -308,6 +313,11 @@ async function addMemberToTeam(teamId, studentEmail, competitionId) {
                 studentId: studentEmail, // Use email as the student ID
                 role: "member"
             })
+        });
+
+        
+        await updateDoc(teamRef, {
+            temp_auth: studentEmail
         });
 
         // Reference the student's document in the 'students' collection

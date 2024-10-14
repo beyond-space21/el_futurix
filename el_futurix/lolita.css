@@ -176,7 +176,7 @@ input {
 }
 
 #frm_cnt {
-  width: fit-content;
+  width: 500px ;
   margin: 0 auto;
   margin-top: 50px;
   padding: 20px;
@@ -365,4 +365,49 @@ form span {
 
 #submit{
   cursor: pointer;
+}
+
+input[type="checkbox"] {
+  width: fit-content;
+  margin-right: 10px;
+}
+
+.ch{
+  align-items: flex-start;
+}
+
+
+#payment_img{
+  background-color: #ffffff;
+  border-radius: 20px;
+  width: fit-content;
+  color: rgb(72, 72, 72);
+  padding: 5px;
+  padding-bottom: 15px;
+}
+
+#payment_img input{
+  border-radius: 20px;
+}
+
+#payment_img div{
+  font-weight: 600;
+  margin-top: 30px;
+  
+}
+
+#payment_img span{
+  font-size: larger;
+  color: #000000;
+}
+
+#submit{
+  margin-top: 30px;
+}
+
+#payment_img .ver{
+  background-color: transparent;
+  border-radius: 0;
+  height: 10px;
+  border-bottom: solid 1px black;
 }

@@ -110,6 +110,10 @@
             font-weight: 700;
             font-size: xx-larger;
         }
+
+        #std_id{
+            font-weight: 700;
+        }
     </style>
 </head>
 
@@ -119,6 +123,10 @@
         <!-- Left side: Profile details -->
         <div class="profile-container">
             <h2>Profile Details</h2>
+
+            <div class="profile-item">
+                <strong>Student ID:</strong> <span class="profile_val" id="std_id"></span>
+            </div>
 
             <div class="profile-item">
                 <strong>Student Name:</strong> <span class="profile_val"></span>
@@ -176,16 +184,17 @@
                 getStudentByEmail(userDetails.email).then((dta) => {
 
                     var elms = document.getElementsByClassName("profile-item")
-                    elms[0].getElementsByClassName("profile_val")[0].innerHTML = dta.student_name
-                    elms[1].getElementsByClassName("profile_val")[0].innerHTML = dta.salutation
-                    elms[2].getElementsByClassName("profile_val")[0].innerHTML = dta.designation
-                    elms[3].getElementsByClassName("profile_val")[0].innerHTML = dta.college_name
-                    elms[4].getElementsByClassName("profile_val")[0].innerHTML = dta.stream
-                    elms[5].getElementsByClassName("profile_val")[0].innerHTML = dta.course
-                    elms[6].getElementsByClassName("profile_val")[0].innerHTML = dta.year
-                    elms[7].getElementsByClassName("profile_val")[0].innerHTML = dta.whatsapp
-                    elms[8].getElementsByClassName("profile_val")[0].innerHTML = dta.phone
-                    elms[9].getElementsByClassName("profile_val")[0].innerHTML = dta.email
+                    elms[0].getElementsByClassName("profile_val")[0].innerHTML = dta.id
+                    elms[1].getElementsByClassName("profile_val")[0].innerHTML = dta.student_name
+                    elms[2].getElementsByClassName("profile_val")[0].innerHTML = dta.salutation
+                    elms[3].getElementsByClassName("profile_val")[0].innerHTML = dta.designation
+                    elms[4].getElementsByClassName("profile_val")[0].innerHTML = dta.college_name
+                    elms[5].getElementsByClassName("profile_val")[0].innerHTML = dta.stream
+                    elms[6].getElementsByClassName("profile_val")[0].innerHTML = dta.course
+                    elms[7].getElementsByClassName("profile_val")[0].innerHTML = dta.year
+                    elms[8].getElementsByClassName("profile_val")[0].innerHTML = dta.whatsapp
+                    elms[9].getElementsByClassName("profile_val")[0].innerHTML = dta.phone
+                    elms[10].getElementsByClassName("profile_val")[0].innerHTML = dta.email
 
                     var evnts = document.getElementById("eve-cnt")
                     let eventsHTML = '';
