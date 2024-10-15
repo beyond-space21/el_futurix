@@ -110,6 +110,9 @@ function gh() {
     con.innerHTML = `
     <br>
 <div id="payment_img">
+                    <h4>Can use regular payment apps too for payment.</h4>
+                    <h5>Gpay: "Bank transfer" menu</h5>
+                    <h5>Phone pay: "To Bank/UPI" menu</h5>
                     <div class="sct_dtl">Account Name: <br><span>BIT-CENTRE FOR ADVANCED STUDIES</span></div>
                     <div class="sct_dtl">Account Number: <br></b><span>911010036862582</span></div>
                     <div class="sct_dtl">IFSC Code: <br><span>UTIB0000368</span></div>
