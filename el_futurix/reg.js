@@ -40,8 +40,9 @@ function payment_img() {
             'state_changed',
             (snapshot) => {
                 // Optional: track progress
-                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                const progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)-1;
                 console.log('Upload is ' + progress + '% done');
+                document.getElementById("img_load").innerHTML = " " + Math.round((progress > 0)?progress:0)+"%";
             },
             (error) => {
                 // Handle errors and reject the promise

@@ -14,6 +14,10 @@
   color: #ffffff;
 }
 
+.omit_a:hover{
+  color: rgb(72, 72, 72);
+}
+
 body{
   padding-bottom: 100px;
 }
@@ -115,7 +119,7 @@ form h4{
 }
 
 form h4:hover{
-  color: aqua;
+  color: rgb(72, 72, 72);
 }
 
 form span{

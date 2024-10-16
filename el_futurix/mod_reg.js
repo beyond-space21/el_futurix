@@ -43,6 +43,8 @@ function validateForm(event) {
     // console.log("sdwd");
     // return
 
+    document.getElementById("submit").value = "processing"
+
     if (flg_a) {
         flg_a = false;
         let fg = true;
@@ -71,7 +73,10 @@ function validateForm(event) {
                             const promise_a = isStudentRegisteredForCompetition(o.email, competitionID)
                                 .then(isRegistered => {
                                     if (isRegistered) {
+                                        document.getElementById("submit").value = "Submit"
+                                        document.getElementById("img_load").innerHTML = ''
                                         alert(elm.value + " registered for the competition already.")
+                                        document.getElementById("img_load").innerHTML = ''
                                         flg_a = true;
                                         flg_valid = false;
                                     } else {
@@ -81,7 +86,10 @@ function validateForm(event) {
                             promises_a.push(promise_a)
                         }).catch(error => {
                             console.error("Error occurred:", error);
+                            document.getElementById("img_load").innerHTML = ''
+                            document.getElementById("submit").value = "Submit"
                             alert(elm.value + " one invalid ID")
+                            document.getElementById("img_load").innerHTML = ''
                             flg_a = true;
                             flg_valid = false;
                             return
@@ -103,7 +111,9 @@ function validateForm(event) {
                     var tmp_arr = [...obj.members];
                     tmp_arr.push(obj.leader)
                     if (new Set(tmp_arr).size !== tmp_arr.length) {
+                        document.getElementById("submit").value = "Submit"
                         alert("Duplicate IDs not allowed");
+                        document.getElementById("img_load").innerHTML = ''
                         flg_a = true;
                         flg_valid = true;
                     } else {
@@ -126,9 +136,11 @@ function validateForm(event) {
                                                     console.log(lp);
                                                     getStudentEmailById(lp).then((eml) => {
                                                         addMemberToTeam(klo.teamId, eml.email, competitionID).then((olp) => {
+                                                            document.getElementById("img_load").innerHTML = ' 100%'
                                                             document.getElementsByClassName("btn")[0].innerHTML = "Registered";
                                                             document.getElementsByClassName("btn")[0].onclick = "unset";
-                                                            alert("members registed successfully")
+                                                            alert("event registed successfully")
+                                                            document.getElementById("submit").value = "Submit"
                                                             document.getElementById("frm_cv").style.display = "none";
                                                         })
                                                     }).catch(error => {
@@ -140,9 +152,11 @@ function validateForm(event) {
                                                 })
 
                                                 if (obj.members.length == 0) {
+                                                    document.getElementById("img_load").innerHTML = ' 100%'
                                                     document.getElementsByClassName("btn")[0].innerHTML = "Registered";
                                                     document.getElementsByClassName("btn")[0].onclick = "unset";
-                                                    alert("members registed successfully")
+                                                    alert("event registed successfully")                                  
+                                                    document.getElementById("submit").value = "Submit"
                                                     document.getElementById("frm_cv").style.display = "none";
                                                 }
                                             })

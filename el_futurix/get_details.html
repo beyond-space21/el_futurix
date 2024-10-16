@@ -241,7 +241,7 @@
             postFirstLogin(obj)
                 .then((successMessage) => {
                     window.parent.postMessage("home", '*');
-                    alert("successfully registered!")
+                    alert("profile created successfully. Visit the competitions to register.")
                 })
                 .catch((errorMessage) => {
                     console.error(errorMessage);

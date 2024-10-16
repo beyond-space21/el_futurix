@@ -3,6 +3,9 @@ import { login,get_details} from './el_futurix/login.js'
 document.getElementById('log_in_btn').onclick = login
 
 get_details().then((userDetails) => {
+
+  
+    document.getElementsByClassName("profile")[0].getElementsByClassName("a")[0].innerHTML = "profile"
     if (userDetails) {
     console.log("user loged in");
     console.log(userDetails);

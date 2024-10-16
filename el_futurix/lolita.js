@@ -102,15 +102,17 @@ function add_mem_fld(e) {
    `
     document.getElementsByTagName('h4')[0].insertAdjacentElement('afterend', con)
 })
-gh()
 
+
+
+gh()
 function gh() {
     const con = document.createElement('div')
     con.className = "kl"
     con.innerHTML = `
     <br>
 <div id="payment_img">
-                    <h4>Can use regular payment apps too for payment.</h4>
+                    <h4 class="omit_a">Can use regular payment apps too for payment.</h4>
                     <h5>Gpay: "Bank transfer" menu</h5>
                     <h5>Phone pay: "To Bank/UPI" menu</h5>
                     <div class="sct_dtl">Account Name: <br><span>BIT-CENTRE FOR ADVANCED STUDIES</span></div>
@@ -133,4 +135,14 @@ function gh() {
                 </div>  
    `
     document.getElementsByClassName('ch')[0].insertAdjacentElement('afterend', con)
+}
+
+inset_load()
+
+function inset_load(){
+    const con = document.createElement('span');
+    con.id = "img_load";
+    con.style="position:relative; top: -5px"
+    // con.innerHTML = " 45%"
+    document.getElementById("submit").insertAdjacentElement('afterend',con);
 }
