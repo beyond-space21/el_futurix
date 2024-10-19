@@ -43,35 +43,7 @@
 
     <div class="container">
         <h1>Coming Soon!</h1>
-        <!-- <p>We are working hard to bring you a great experience. Stay tuned!</p>
-        <div class="timer" id="timer">
-            Launching in <span id="days">0</span> days!
-        </div> -->
     </div>
-
-    <script>
-        // Countdown timer
-        const targetDate = new Date("December 31, 2024 00:00:00").getTime();
-        const timer = document.getElementById("timer");
-        const daysElement = document.getElementById("days");
-
-        function updateTimer() {
-            const now = new Date().getTime();
-            const timeDiff = targetDate - now;
-
-            if (timeDiff < 0) {
-                timer.innerHTML = "We are live!";
-                return;
-            }
-
-            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-
-            daysElement.textContent = days;
-        }
-
-        updateTimer();
-        setInterval(updateTimer, 1000 * 60 * 60 * 24); // Update daily
-    </script>
 
 </body>
 </html>
