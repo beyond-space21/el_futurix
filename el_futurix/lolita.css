@@ -386,6 +386,10 @@ input[type="checkbox"] {
   align-items: flex-start;
 }
 
+.ch_{
+  align-items: flex-start;
+}
+
 
 #payment_img{
   background-color: #ffffff;

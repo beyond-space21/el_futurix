@@ -44,7 +44,15 @@ function validateForm(event) {
     // return
 
     var ieee_id = '$null$'
-
+    var abstract_link = '$null$'
+    
+    try {
+        abstract_link = document.getElementById('abs_lnk').value
+    } catch (error) {
+        
+    }
+    
+    abstract_link = (abstract_link == '')? "$null$" : abstract_link
 
     if (['s7rC0nFh5afu6P98XQHX','DN3kcqEZJctQfwS7E2nV','mzUFT4i46CKDfaNIGQVh','3pj8raWgDbA2HCElgRpJ'].indexOf(competitionID) != -1) {
         try {
@@ -148,7 +156,7 @@ function validateForm(event) {
                                                 date: document.getElementById("traction-date").value,
                                                 name: document.getElementById("holder-name").value
                                             }
-                                            createTeam(ieee_id, transaction, downloadURL, competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
+                                            createTeam(abstract_link,ieee_id, transaction, downloadURL, competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
 
                                                 obj.members.forEach((lp) => {
                                                     console.log(lp);
