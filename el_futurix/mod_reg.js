@@ -125,12 +125,12 @@ function validateForm(event) {
                                     .then((o) => {
                                         if (o) {
                                             var transaction = {
-                                                id:document.getElementById("traction-id").value,
-                                                amt:document.getElementById("traction-ammount").value,
-                                                date:document.getElementById("traction-date").value,
-                                                name:document.getElementById("holder-name").value
+                                                id: document.getElementById("traction-id").value,
+                                                amt: document.getElementById("traction-ammount").value,
+                                                date: document.getElementById("traction-date").value,
+                                                name: document.getElementById("holder-name").value
                                             }
-                                            createTeam(transaction,downloadURL,competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
+                                            createTeam(transaction, downloadURL, competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
 
                                                 obj.members.forEach((lp) => {
                                                     console.log(lp);
@@ -155,7 +155,7 @@ function validateForm(event) {
                                                     document.getElementById("img_load").innerHTML = ' 100%'
                                                     document.getElementsByClassName("btn")[0].innerHTML = "Registered";
                                                     document.getElementsByClassName("btn")[0].onclick = "unset";
-                                                    alert("event registed successfully")                                  
+                                                    alert("event registed successfully")
                                                     document.getElementById("submit").value = "Submit"
                                                     document.getElementById("frm_cv").style.display = "none";
                                                 }
@@ -244,11 +244,13 @@ document.addEventListener('click', function (event) {
     }
 });
 
-if(["1HFUDpVdTCKQ7Pi9TH8f","M9NXDdwgGRemUnRi2kbr","Un6FvqsAdt6VVitBedIj","m4l2L0xYZkuplUvZTvT9","p564W5i3pRR3zYKAWDRw"].includes(competitionID)){
-document.getElementsByClassName('id_elm')[0].getElementsByTagName("label")[0].innerHTML = "Participant ID"
-document.getElementById('studentForm').getElementsByTagName("label")[0].style.display = "none"
-document.getElementById('team-name').style.display = "none"
-document.getElementById('team-name').value = "$null$";
-document.getElementById('frm_cnt').getElementsByTagName("h4")[0].style.display = 'none'
-isSpecial = true
+if (["1HFUDpVdTCKQ7Pi9TH8f", "M9NXDdwgGRemUnRi2kbr", "Un6FvqsAdt6VVitBedIj", "m4l2L0xYZkuplUvZTvT9", "p564W5i3pRR3zYKAWDRw"].includes(competitionID)) {
+    document.getElementsByClassName('id_elm')[0].getElementsByTagName("label")[0].innerHTML = "Participant ID"
+    document.getElementById('studentForm').getElementsByTagName("label")[0].style.display = "none"
+    document.getElementById('team-name').style.display = "none"
+    document.getElementById('team-name').value = "$null$";
+    document.getElementById('frm_cnt').getElementsByTagName("h4")[0].style.display = 'none'
+    isSpecial = true
 }
+
+export { reg_op }

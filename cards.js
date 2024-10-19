@@ -37,6 +37,8 @@ function card(cont, key) {
         if (key[3][0] == '/') {
             page_show(cur_page, key[3], key[4])
             animateCamera(cam, bc_pos.sub_category)
+        } else if(key[3][0] == '<'){
+            window.open('https://forms.gle/FyhZzb6Na2JsRvE3A','_blank')
         } else {
             page_show(cur_page, key[3])
             animateCamera(cam, bc_pos.category)

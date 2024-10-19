@@ -3,66 +3,165 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coming Soon</title>
+    <title>Event Combos Plan</title>
     <style>
-        * {
+        body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #0d0d0d;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
-            overflow: hidden;
+            background-color: transparent;
         }
 
         .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            width: 90%;
+            margin: 20px auto;
+            padding: 10px;
         }
 
-        h1 {
-            font-size: 4rem;
-            letter-spacing: 5px;
+        h2 {
+            text-align: center;
             margin-bottom: 20px;
-            color: #00d9ff;
-            text-transform: uppercase;
         }
 
-        p {
-            font-size: 1.5rem;
-            color: #bfbfbf;
-            margin-bottom: 30px;
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
         }
 
-        /* Responsive */
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 3rem;
+        .card:hover{
+            /* position: relative;
+            top: -10px; */
+            outline: solid 2px rgb(255, 247, 0);
+            cursor: pointer;
+        }
+
+        .card {
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 10px;
+            padding: 20px;
+            width: 300px;
+            box-sizing: border-box;
+        }
+
+        .card h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            color: #4CAF50;
+        }
+
+        .card p {
+            margin: 5px 0;
+        }
+
+        .card .highlight {
+            font-weight: bold;
+        }
+
+        .card .combo-amount {
+            background-color: #969696;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .cards {
+                flex-direction: column;
+                align-items: center;
             }
 
-            p {
-                font-size: 1.2rem;
+            .card {
+                width: 90%;
             }
         }
     </style>
 </head>
 <body>
-
     <div class="container">
-        <h1>Coming Soon</h1>
-        <p>Exciting combos will reach you in a couple of days!!</p>
-    </div>
+        <div class="cards">
+            <!-- Combo 1 Card -->
+            <div class="card" onclick="trig_reg('combo1')">
+                <h3>Combo 1</h3>
+                <p><span class="highlight">Events:</span></p>
+                <p>Fast-Track Follower Bot</p>
+                <p>Maze Master Bot Challenge</p>
+                <p>Any 1 Non Technical</p>
+                <p><span class="highlight">Team Size:</span> 4</p>
+                <div class="combo-amount">₹1049</div>
+            </div>
 
+            <!-- Combo 2 Card -->
+            <div class="card" onclick="trig_reg('combo2')">
+                <h3>Combo 2</h3>
+                <p><span class="highlight">Events:</span></p>
+                <p>Any 1 (Paper Presentation or Drone Dynamics Challenge or Product Xpo or Robo Soccer)</p>
+                <p>Any 1 Workshop for All 3 participants</p>
+                <p><span class="highlight">Team Size:</span> 3</p>
+                <div class="combo-amount">₹999</div>
+            </div>
+
+            <!-- Combo 3 Card -->
+            <div class="card" onclick="trig_reg('combo3')">
+                <h3>Combo 3</h3>
+                <p><span class="highlight">Events:</span></p>
+                <p>Any 1 (Circuit Innovators Contest or DataCraft Presentation or Coder's Arena)</p>
+                <p>Any 1 Workshop for All 2 participants</p>
+                <p><span class="highlight">Team Size:</span> 2</p>
+                <div class="combo-amount">₹549</div>
+            </div>
+
+            <!-- Combo 4 Card -->
+            <div class="card" onclick="trig_reg('combo4')">
+                <h3>Combo 4</h3>
+                <p><span class="highlight">Events:</span></p>
+                <p>Coder's Arena or CAD Maestro Contest</p>
+                <p>Any 1 Workshop</p>
+                <p>Any 1 (Cinematic Quiz or M.I. Investigator or Bridge Building)</p>
+                <p><span class="highlight">Team Size:</span> 1</p>
+                <div class="combo-amount">₹399</div>
+            </div>
+
+            <!-- Combo 5 Card -->
+            <div class="card" onclick="trig_reg('combo5')">
+                <h3>Combo 5</h3>
+                <p><span class="highlight">Events:</span></p>
+                <p>Any 1 (Paper Presentation or Drone Dynamics Challenge or Product Xpo or Robo Soccer)</p>
+                <p>Web Wizards Showdown</p>
+                <p><span class="highlight">Team Size:</span> 4</p>
+                <div class="combo-amount">₹799</div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        function trig_reg(msg){
+            switch (msg) {
+                case 'combo1':
+                    window.location.href = 'combo1.html'
+                    break;
+                case 'combo2':
+                    window.location.href = 'combo2.html'
+                    break;
+                case 'combo3':
+                    window.location.href = 'combo3.html'
+                    break;
+                case 'combo4':
+                    window.location.href = 'combo4.html'
+                    break;
+                case 'combo5':
+                    window.location.href = 'combo5.html'
+                    break;
+            
+                default:
+                    break;
+            }                    
+        }
+    </script>
 </body>
 </html>
-

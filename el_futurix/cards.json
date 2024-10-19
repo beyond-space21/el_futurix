@@ -6,7 +6,8 @@
         ["About us", "el_futurix/img/Homepage-20241008T130301Z-001/Homepage/about.png", "", "/el_futurix/aboutus.html", ""],
         ["Contact", "el_futurix/img/Homepage-20241008T130301Z-001/Homepage/contact.png", "", "/el_futurix/contact.html", "Contact"],
         ["Committee", "el_futurix/img/Homepage-20241008T130301Z-001/Homepage/committee.png", "", "/el_futurix/committee.html", "Committee"],
-        ["Combo events", "el_futurix/img/Homepage-20241008T130301Z-001/Homepage/combo.png", "", "/el_futurix/combo.html", "Combo events"]
+        ["Combo events", "el_futurix/img/Homepage-20241008T130301Z-001/Homepage/combo.png", "", "/el_futurix/combo.html", "Combo events"],
+        ["Accomodation", "el_futurix/img/thumbs/accomodation.png", "", "<", "Accomodation"]
     ],
 
     "competitions": [
