@@ -305,7 +305,7 @@ async function createCompetition(name, type) {
 
 
 
-function createTeam(transaction,payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
+function createTeam(ieee,transaction,payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
     return new Promise(async (resolve, reject) => {
         try {
             // Add the team to the "teams" collection
@@ -315,6 +315,7 @@ function createTeam(transaction,payment_url, competitionId, teamName, studentEma
                 competitionId: competitionId,
                 paymentURL:payment_url,
                 transaction:transaction,
+                ieee:ieee,
                 members: [
                     {
                         studentId: studentEmail, // Use the email as studentId

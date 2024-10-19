@@ -43,6 +43,24 @@ function validateForm(event) {
     // console.log("sdwd");
     // return
 
+    var ieee_id = '$null$'
+
+
+    if (['s7rC0nFh5afu6P98XQHX','DN3kcqEZJctQfwS7E2nV','mzUFT4i46CKDfaNIGQVh','3pj8raWgDbA2HCElgRpJ'].indexOf(competitionID) != -1) {
+        try {
+            if (document.getElementById('opo').checked) {
+                if (document.getElementById('ieeeID').value == '') {
+                    alert("please enter the IEEE ID if you are an IEEE member. Or remove the check in IEEE field");
+                    return
+                } else {
+                    ieee_id = document.getElementById('ieeeID').value;
+                }
+            }
+        } catch (error) {
+            console.log('not an ieee member');   
+        }
+    }
+
     document.getElementById("submit").value = "processing"
 
     if (flg_a) {
@@ -130,7 +148,7 @@ function validateForm(event) {
                                                 date: document.getElementById("traction-date").value,
                                                 name: document.getElementById("holder-name").value
                                             }
-                                            createTeam(transaction, downloadURL, competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
+                                            createTeam(ieee_id, transaction, downloadURL, competitionID, document.getElementById("team-name").value, o.email, obj.leader).then((klo) => {
 
                                                 obj.members.forEach((lp) => {
                                                     console.log(lp);
