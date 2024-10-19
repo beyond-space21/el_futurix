@@ -253,11 +253,12 @@ body{
 #frm_cont{
   position: fixed;
   top: 130px;
-  /* bottom: 0px; */
+  bottom: 0px;
+  /* margin-bottom: 20px; */
   left: 0;
   right: 0;
   width: 100%;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 130px);
 }
 
 
