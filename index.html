@@ -33,6 +33,19 @@
     position: fixed;
     z-index: 10000;
   }
+
+  .logo{
+    /* height: 20px; */
+    position: relative;
+    top: -10px;
+  }
+  .dte{
+    color: aliceblue;
+    font-size: small;
+    position: relative;
+    top: -15px;
+    right: -12px;
+  }
 </style>
 
 <body>
@@ -47,7 +60,11 @@
 
   <div id="site">
     <div class="top_nav">
-      <img class="logo" src="el_futurix/img/logo.png" alt="">
+      <div>
+        <img class="logo" src="el_futurix/img/logo.png" alt="">
+        <div class="dte">9th November 2024</div>
+      </div>
+      
       <div class="pages" onclick="page_show(null,'home')">Home</div>
       <div class="pages" onclick="page_show(null,'competition')">Competitions</div>
       <div class="pages" onclick="page_show(null,'workshop')">Workshops</div>
