@@ -115,9 +115,9 @@ function gh() {
                     <h4 class="omit_a">Can use regular payment apps too for payment.</h4>
                     <h5>Gpay: "Bank transfer" menu</h5>
                     <h5>Phone pay: "To Bank/UPI" menu</h5>
-                    <div class="sct_dtl">Account Name: <br><span>A.Karthick</span></div>
-                    <div class="sct_dtl">Account Number: <br></b><span>43096670167</span></div>
-                    <div class="sct_dtl">IFSC Code: <br><span>SBIN0021760</span></div>
+                    <div class="sct_dtl">Account Name: <br><span>BIT-CENTRE FOR ADVANCED STUDIES</span></div>
+                    <div class="sct_dtl">Account Number: <br></b><span>911010036862582</span></div>
+                    <div class="sct_dtl">IFSC Code: <br><span>UTIB0000368</span></div>
                     <div class="sct_dtl">Payment proof (screenshot)</div>
                     <input type="file" id="imageInput" accept="image/*"  required/>
 
