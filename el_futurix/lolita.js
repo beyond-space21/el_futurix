@@ -3,6 +3,7 @@ window.onload = () => {
     rg.style.marginLeft = (window.innerWidth - 354) / 2 + 'px'
 }
 
+document.getElementsByClassName('btn')[0].innerHTML = "Registration closed"
 
 // Function to simulate fetching member name by student ID
 function fetchMemberName(member) {
