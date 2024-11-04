@@ -4,6 +4,7 @@ window.onload = () => {
 }
 
 document.getElementsByClassName('btn')[0].innerHTML = "Registration closed"
+document,getElementsByClassName('btn')[0].onclick = 'unset'
 
 // Function to simulate fetching member name by student ID
 function fetchMemberName(member) {
