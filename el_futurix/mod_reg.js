@@ -26,7 +26,7 @@ get_details().then((userDetails) => {
 
     } else {
         console.log("No user is signed in.");
-        alert("login before registering...");
+        // alert("login before registering...");
     }
 }).catch((error) => {
     console.error("Error getting user details:", error);
@@ -236,7 +236,7 @@ function reg_op() {
             })
         } else {
             console.log("No user is signed in.");
-            alert("login before registering...");
+            // alert("login before registering...");
         }
     }).catch((error) => {
         console.error("Error getting user details:", error);
