@@ -12,13 +12,13 @@
     <script>
         // Firebase configuration - replace with your Firebase project credentials
         const firebaseConfig = {
-  apiKey: "AIzaSyCU7oidsJF6Z0_P02olT4HdHXX24UsqC9A",
-  authDomain: "qr-elfuturix.firebaseapp.com",
-  projectId: "qr-elfuturix",
-  storageBucket: "qr-elfuturix.firebasestorage.app",
-  messagingSenderId: "961517469542",
-  appId: "1:961517469542:web:4b3aa994e32bfc0ea592a7",
-  measurementId: "G-R58S0D6R47"
+    apiKey: "AIzaSyDULqoxGCXzqie03gmHrKt-BqJ-4lrtYCI",
+    authDomain: "elfuturix-562eb.firebaseapp.com",
+    projectId: "elfuturix-562eb",
+    storageBucket: "elfuturix-562eb.appspot.com",
+    messagingSenderId: "518115904118",
+    appId: "1:518115904118:web:c5214283690b6619b52d57",
+    measurementId: "G-DQW58LGMHR"
 };
         
         // Initialize Firebase
@@ -29,18 +29,7 @@
         const code = window.location.href.split('/')[window.location.href.split('/').length-1]
 
         if (code) {
-            // Reference to Firestore document
-            const qrRef = db.collection('qr_scaned').doc(code);
 
-            // Increment the counter
-            qrRef.update({ count: firebase.firestore.FieldValue.increment(1) })
-                .then(() => {
-                    // Redirect after the count is incremented
-                    window.location.href = "https://anotherwebsite.com";
-                })
-                .catch(error => {
-                    console.error("Error incrementing counter: ", error);
-                });
         } else {
             console.error("No code provided in URL.");
         }

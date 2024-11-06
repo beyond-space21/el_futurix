@@ -21,6 +21,22 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
+
+function update_qr_cnt() {
+    // Reference to Firestore document
+    const qrRef = db.collection('qr_scaned').doc(code);
+
+    // Increment the counter
+    qrRef.update({ count: firebase.firestore.FieldValue.increment(1) })
+        .then(() => {
+            // Redirect after the count is incremented
+            window.location.href = `https://elfuturix.bitsathy.ac.in/el_futurix/identification.html/${code}`;
+        })
+        .catch(error => {
+            console.error("Error incrementing counter: ", error);
+        });
+}
+
 function payment_img() {
     const file = document.getElementById("imageInput").files[0];
     return new Promise((resolve, reject) => {
@@ -40,9 +56,9 @@ function payment_img() {
             'state_changed',
             (snapshot) => {
                 // Optional: track progress
-                const progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)-1;
+                const progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) - 1;
                 console.log('Upload is ' + progress + '% done');
-                document.getElementById("img_load").innerHTML = " " + Math.round((progress > 0)?progress:0)+"%";
+                document.getElementById("img_load").innerHTML = " " + Math.round((progress > 0) ? progress : 0) + "%";
             },
             (error) => {
                 // Handle errors and reject the promise
@@ -326,7 +342,7 @@ async function createCompetition(name, type) {
 
 
 
-function createTeam(abstract_link,ieee,transaction,payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
+function createTeam(abstract_link, ieee, transaction, payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
     return new Promise(async (resolve, reject) => {
         try {
             // Add the team to the "teams" collection
@@ -334,10 +350,10 @@ function createTeam(abstract_link,ieee,transaction,payment_url, competitionId, t
             const teamDocRef = await addDoc(teamRef, {
                 teamName: teamName,
                 competitionId: competitionId,
-                paymentURL:payment_url,
-                transaction:transaction,
-                ieee:ieee,
-                abstract_link:abstract_link,
+                paymentURL: payment_url,
+                transaction: transaction,
+                ieee: ieee,
+                abstract_link: abstract_link,
                 members: [
                     {
                         studentId: studentEmail, // Use the email as studentId
@@ -467,4 +483,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export {getStudentByqr,payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export { getStudentByqr, payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
