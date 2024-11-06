@@ -239,6 +239,27 @@ function getStudentEmailById(studentId) {
 }
 
 
+async function getStudentByqr(qr) {
+    // Create a reference to the document
+    const profDocRef = doc(db, 'identification', qr);
+
+    try {
+        // Get the document
+        const docSnap = await getDoc(profDocRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data(); // Return the student data if found
+        } else {
+            console.log("No member found with id:", qr);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching member by id:", error);
+        return null;
+    }
+}
+
+
 // async function createTeam(competitionId, teamName, studentId) {
 //     const teamRef = collection(db, "teams");
 //     const teamDocRef = await addDoc(teamRef, {
@@ -446,4 +467,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export {payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export {getStudentByqr,payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }

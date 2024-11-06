@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Scanner</title>
+    <!-- Import the legacy Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore-compat.js"></script>
+</head>
+<body>
+    <script>
+        // Firebase configuration - replace with your Firebase project credentials
+        const firebaseConfig = {
+  apiKey: "AIzaSyCU7oidsJF6Z0_P02olT4HdHXX24UsqC9A",
+  authDomain: "qr-elfuturix.firebaseapp.com",
+  projectId: "qr-elfuturix",
+  storageBucket: "qr-elfuturix.firebasestorage.app",
+  messagingSenderId: "961517469542",
+  appId: "1:961517469542:web:4b3aa994e32bfc0ea592a7",
+  measurementId: "G-R58S0D6R47"
+};
+        
+        // Initialize Firebase
+        const app = firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // Extract code from URL
+        const code = window.location.href.split('/')[window.location.href.split('/').length-1]
+
+        if (code) {
+            // Reference to Firestore document
+            const qrRef = db.collection('qr_scaned').doc(code);
+
+            // Increment the counter
+            qrRef.update({ count: firebase.firestore.FieldValue.increment(1) })
+                .then(() => {
+                    // Redirect after the count is incremented
+                    window.location.href = "https://anotherwebsite.com";
+                })
+                .catch(error => {
+                    console.error("Error incrementing counter: ", error);
+                });
+        } else {
+            console.error("No code provided in URL.");
+        }
+    </script>
+</body>
+</html>
