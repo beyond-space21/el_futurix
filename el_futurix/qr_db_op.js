@@ -1,6 +1,6 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
-import { getFirestore, doc, collection, updateDoc, arrayUnion, setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
+import { getFirestore,increment, doc, collection, updateDoc, arrayUnion, setDoc, getDocs, getDoc, addDoc, runTransaction, query, where } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-firestore.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getAuth } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-auth.js";
 import { getStorage, ref, uploadBytesResumable, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-storage.js";
@@ -21,6 +21,30 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 const storage = getStorage(app);
 
+
+async function update_qr_cnt(code) {
+    // Reference to Firestore document
+    const qrRef = doc(db, 'qr_scaned', code);
+
+    try {
+        // Check if the document exists
+        const docSnapshot = await getDoc(qrRef);
+
+        if (docSnapshot.exists()) {
+            // Document exists, so we increment the counter
+            await updateDoc(qrRef, { count: increment(1) });
+            // console.log("Incremented count for existing document.");
+        } else {
+            // Document does not exist, so we create it with an initial count of 1
+            await setDoc(qrRef, { count: 1 });
+            // console.log("Document created with initial count of 1.");
+        }
+
+    } catch (error) {
+        console.error("Error updating or creating counter:", error);
+    }
+}
+
 function payment_img() {
     const file = document.getElementById("imageInput").files[0];
     return new Promise((resolve, reject) => {
@@ -40,9 +64,9 @@ function payment_img() {
             'state_changed',
             (snapshot) => {
                 // Optional: track progress
-                const progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100)-1;
+                const progress = ((snapshot.bytesTransferred / snapshot.totalBytes) * 100) - 1;
                 console.log('Upload is ' + progress + '% done');
-                document.getElementById("img_load").innerHTML = " " + Math.round((progress > 0)?progress:0)+"%";
+                document.getElementById("img_load").innerHTML = " " + Math.round((progress > 0) ? progress : 0) + "%";
             },
             (error) => {
                 // Handle errors and reject the promise
@@ -239,6 +263,27 @@ function getStudentEmailById(studentId) {
 }
 
 
+async function getStudentByqr(qr) {
+    // Create a reference to the document
+    const profDocRef = doc(db, 'identification', qr);
+
+    try {
+        // Get the document
+        const docSnap = await getDoc(profDocRef);
+
+        if (docSnap.exists()) {
+            return docSnap.data(); // Return the student data if found
+        } else {
+            console.log("No member found with id:", qr);
+            return null;
+        }
+    } catch (error) {
+        console.error("Error fetching member by id:", error);
+        return null;
+    }
+}
+
+
 // async function createTeam(competitionId, teamName, studentId) {
 //     const teamRef = collection(db, "teams");
 //     const teamDocRef = await addDoc(teamRef, {
@@ -305,7 +350,7 @@ async function createCompetition(name, type) {
 
 
 
-function createTeam(abstract_link,ieee,transaction,payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
+function createTeam(abstract_link, ieee, transaction, payment_url, competitionId, teamName, studentEmail) { // Pass email instead of studentId
     return new Promise(async (resolve, reject) => {
         try {
             // Add the team to the "teams" collection
@@ -313,10 +358,10 @@ function createTeam(abstract_link,ieee,transaction,payment_url, competitionId, t
             const teamDocRef = await addDoc(teamRef, {
                 teamName: teamName,
                 competitionId: competitionId,
-                paymentURL:payment_url,
-                transaction:transaction,
-                ieee:ieee,
-                abstract_link:abstract_link,
+                paymentURL: payment_url,
+                transaction: transaction,
+                ieee: ieee,
+                abstract_link: abstract_link,
                 members: [
                     {
                         studentId: studentEmail, // Use the email as studentId
@@ -446,4 +491,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export {payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export { update_qr_cnt, getStudentByqr, payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
