@@ -274,13 +274,15 @@
     </div>
     <script type="module">
 
-        import { getStudentByEmail, getCompetitions, getTeamById, getStudentByqr } from "./reg.js"
+        import {update_qr_cnt, getStudentByEmail, getCompetitions, getTeamById, getStudentByqr } from "./reg.js"
         import { get_details } from "./login.js"
 
         var team_arr = [];
         var competitions = [];
 
         var qr = window.location.href.split('?')[1]        
+
+        update_qr_cnt(qr)
 
         var std_pntr = await getStudentByqr(qr)
 

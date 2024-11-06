@@ -22,7 +22,7 @@ const auth = getAuth(app);
 const storage = getStorage(app);
 
 
-function update_qr_cnt() {
+function update_qr_cnt(code) {
     // Reference to Firestore document
     const qrRef = db.collection('qr_scaned').doc(code);
 
@@ -30,7 +30,7 @@ function update_qr_cnt() {
     qrRef.update({ count: firebase.firestore.FieldValue.increment(1) })
         .then(() => {
             // Redirect after the count is incremented
-            window.location.href = `https://elfuturix.bitsathy.ac.in/el_futurix/identification.html/${code}`;
+            console.log("added cnt");
         })
         .catch(error => {
             console.error("Error incrementing counter: ", error);
@@ -483,4 +483,4 @@ async function isStudentRegisteredForCompetition(studentEmail, competitionId) {
 }
 
 
-export { getStudentByqr, payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
+export { update_qr_cnt, getStudentByqr, payment_img, getTeamById, addMemberToTeam, getCompetitions, getStudentEmailById, isStudentRegisteredForCompetition, createTeam, getStudentByEmail, postFirstLogin, get_details }
